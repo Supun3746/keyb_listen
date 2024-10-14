@@ -2,4 +2,4 @@ __pycache__/
 .venv/
 logs/
 screenshots/
-poetry.lock
+*.lock
